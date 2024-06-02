@@ -1,0 +1,75 @@
+﻿@page "/Management/Publisher/{PubId:int?}"
+
+@model Assignment2.Pages.Management.PublisherModel
+
+<div>
+    <div class="mb-4">
+        <label class="fw-bolder" style="font-size: 25px;">Enter Author Information</label>
+    </div>
+    <form method="post">
+        <div class="col-5 mb-4 ms-3">
+            <div class="d-flex mb-4">
+                <label class="col-2 fw-bold me-3">first name: </label>
+                <input type="text" placeholder="first name" name="txtName" class="form-control" value="@Model.publisherName" />
+            </div>
+            <div class="d-flex mb-4">
+                <label class="col-2 fw-bold me-3">city</label>
+                <select type="text" placeholder="first city" name="ddlCity" class="form-select" value="@Model.city">
+                    @foreach (var item in Model.CityList)
+                    {
+                        <!option @(!string.IsNullOrEmpty(Model.city) && Model.city.Equals(item) ? "selected" : "") value="@item">@item</!option>
+
+                    }
+                </select>
+            </div>
+            <div class="d-flex mb-4">
+                <div class="col-2 fw-bold me-3"></div>
+                <div class="d-flex col">
+                    <button class="btn btn-primary col-2 me-3">Save</button>
+                    <a class="btn btn-primary col-2" href="/Management/Publisher">Clear</a>
+                </div>
+            </div>
+        </div>
+    </form>
+    @if (!string.IsNullOrEmpty(Model.Error))
+    {
+        <div class="alert alert-danger">
+            @Model.Error
+        </div>
+    }
+    <div>
+        <label class="fw-bolder mb-4" style="font-size: 25px;">Authors</label>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="bg-primary">
+                    <th>PublisherId</th>
+                    <th>PublisherName</th>
+                    <th>City</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Publishers)
+                {
+                    <tr>
+                        <td>@item.PubId</td>
+                        <td>@item.PublisherName</td>
+                        <td>@item.City</td>
+                        <td>
+                            <div>
+                                <a href="/Management/Publisher/@item.PubId">Edit</a>
+                                <span>|</span>
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@item.PubId" style="display:inline;">
+                                    <button type="submit" class="btn btn-link">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@{
+}
